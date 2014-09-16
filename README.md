@@ -1,38 +1,41 @@
-Role Name
-=========
+mist.ansible-role
+==================
 
-A brief description of the role goes here.
+This role will take care of installing the mist.io service.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+You need to have a non root user added to the sudoers.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The variables that can be passed:
 
-Dependencies
-------------
+    #If jsbuild and cssbuild are True, then precompiled js and css templates will be used.
+    #This results in faster load times, however you can't debug js and css.
+    #Use False in case of development.
+    jsbuild                    : True
+    cssbuild                   : True
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+    #sslverify will verufy that a https installation has a valid certificate.
+    sslverify                  : False
+
+You can find and change this variable in the defaults/main.yml file
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Simple example:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    ---
 
-License
--------
+    - name: Example playbook for mist.io service
+      hosts: mistserver
+      vars_files:
+        - "defaults/main.yml"
 
-BSD
+      tasks:
+        - include: "tasks/main.yml"
 
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
