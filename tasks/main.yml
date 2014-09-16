@@ -1,0 +1,6 @@
+---
+# tasks file for mist.ansible-role
+- include: "debian.yml"
+  when: ansible_os_family == "Debian"
+
+- include: "buildout.yml"

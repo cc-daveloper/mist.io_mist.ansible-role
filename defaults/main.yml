@@ -1,0 +1,10 @@
+---
+#See settings.py file
+#If jsbuild and cssbuild are True, then precompiled js and css templates will be used.
+#This results in faster load times, however you can't debug js and css.
+#Use False in case of development.
+jsbuild                    : True
+cssbuild                   : True
+
+#sslverify will verufy that a https installation has a valid certificate.
+sslverify                  : False

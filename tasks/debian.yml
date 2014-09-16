@@ -1,0 +1,21 @@
+---
+#Debian specific packages
+- name: Update apt cache
+  sudo: True
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install packages
+  sudo: True
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - python-dev
+    - python-pip
+    - python-virtualenv
+    - build-essential
+    - git
+    - erlang
+    - libpcre3-dev

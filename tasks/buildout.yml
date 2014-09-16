@@ -1,0 +1,46 @@
+---
+#Buildout of mist.io service
+- name: Clone mist.io github repo
+  git:
+    repo: "https://github.com/mistio/mist.io"
+    dest: ~/mist.io
+  register: gitclone
+
+- name: Update mist.io github repo
+  git:
+    repo: "https://github.com/mistio/mist.io"
+    dest: ~/mist.io
+    update: yes
+  register: gitupdate
+
+- name: Init virtualenv and upgrade setuptools
+  pip:
+    virtualenv: ~/mist.io
+    name: setuptools
+    state: present
+    extra_args: --upgrade
+  when: gitclone | changed
+
+- name: Run bootstrap.py
+  command: chdir=~/mist.io ./bin/python bootstrap.py creates=~/mist.io/bin/buildout
+
+- name: Run buildout
+  command: chdir=~/mist.io ./bin/buildout
+  async: 900
+  poll: 15
+  when: gitclone | changed or gitupdate | changed
+
+- name: Copy settings.py file
+  template:
+    src: settings.py.j2
+    dest: ~/mist.io/settings.py
+
+- name: Start supervisord
+  shell: chdir=~/mist.io ./bin/supervisord
+  ignore_errors: true
+  when: gitclone | changed
+
+- name: Restart uwsgi-socketio
+  shell: chdir=~/mist.io ./bin/supervisorctl restart uwgsi socketio
+  when: gitupdate | changed
+
