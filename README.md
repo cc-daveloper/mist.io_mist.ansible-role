@@ -3,6 +3,14 @@ mist.ansible-role
 
 This role will take care of installing the mist.io service.
 
+Summary
+-------
+
+This role will take care to clone the mist.io service from the https://github.com/mistio/mist.io repository,
+install the necessary packages and init the mist.io service in a virtualenv.
+
+After finishing you can visit http://your-server:8000 to have access to the mist.io service
+
 Requirements
 ------------
 
@@ -22,7 +30,7 @@ The variables that can be passed:
     #sslverify will verufy that a https installation has a valid certificate.
     sslverify                  : False
 
-You can find and change this variable in the defaults/main.yml file
+You can find and change this variables in the defaults/main.yml file
 
 Example Playbook
 ----------------
